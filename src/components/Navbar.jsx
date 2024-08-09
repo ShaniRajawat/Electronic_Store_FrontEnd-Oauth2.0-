@@ -42,8 +42,8 @@ const CustomNavbar = () => {
           </Nav>
           <Nav>
             <Nav.Link as={NavLink} to="/cart">Cart(40)</Nav.Link>
-            <Nav.Link href="#deets">Login</Nav.Link>
-            <Nav.Link href="#memes">SignUp</Nav.Link>
+            <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
+            <Nav.Link as={NavLink} to="/register" >SignUp</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
