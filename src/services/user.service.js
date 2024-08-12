@@ -1,6 +1,6 @@
 import { publicAxios } from "./axios.services"
-// user realted api calls
 
+// user realted api calls
 
 //register new user
 export const registerUser =(userdata)=>{
@@ -8,7 +8,11 @@ export const registerUser =(userdata)=>{
 };
 
 //get Current user
-export const getCurrentUser=()=>{
-  return publicAxios.get(`/users/current`).then((Response)=> Response.data);
-}
+export const getCurrentUser=(token)=>{
+  return publicAxios.get(`/users/current`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then((Response)=> Response.data);
+};
 

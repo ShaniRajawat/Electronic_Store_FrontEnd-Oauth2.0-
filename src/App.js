@@ -13,32 +13,44 @@ import { ToastContainer } from "react-toastify";
 import Login from "./pages/login";
 import Register from "./pages/signup";
 import OAuthCallback from "./auth/OAuthCallback";
-import home from "./pages/users/home";
+import Home from "./pages/users/home";
+import Order from "./pages/users/order";
+import UserProvider from "./context/user.provider";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminHome from "./pages/admin/AdminHome";
+import AddProduct from "./pages/admin/AddProduct";
 
 function App() {
   return (
     //setting up route
-    <BrowserRouter>
-      <ToastContainer
-      position="bottom-center"
-      />
-      <CustomNavbar />
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/Login" element={<Login/>} />
-        <Route path="/callback" element={<OAuthCallback/>} />
-        <Route path="/Register" element={<Register/>}/>
-        <Route path="/users" element={<Dashboard />}>
-          <Route path="home" element={<home/>}/>
-          <Route path="profile" element={<Profile />} />
-          <Route path="aboutuser" element={<AboutUser />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <ToastContainer position="bottom-center" />
+        <CustomNavbar />
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/callback" element={<OAuthCallback />} />
+          <Route path="/Register" element={<Register />} />
+
+          <Route path="/users" element={<Dashboard />}>
+            <Route path="home" element={<Home />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="about" element={<AboutUser />} />
+            <Route path="orders" element={<Order />} />
+          </Route>
+
+          <Route path="/admin" element={<AdminDashboard />}>
+            <Route path="home" element={<AdminHome />} />
+            <Route path="add-product" element={<AddProduct />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 

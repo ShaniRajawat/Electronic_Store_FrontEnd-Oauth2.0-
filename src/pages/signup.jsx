@@ -15,6 +15,7 @@ import Logo from "../assets/logo.png";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { registerUser } from "../services/user.service";
+import { NavLink } from "react-router-dom";
 
 const Register = () => {
   let [data, setData] = useState({
@@ -226,7 +227,7 @@ const Register = () => {
 
                   <Container>
                     <p className="text-center">
-                      Already registered ! <a href="./login">Login</a>
+                      Already registered ! <NavLink to="/login">Login</NavLink>
                     </p>
                   </Container>
                   <Container className="text-center">
