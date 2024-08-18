@@ -4,7 +4,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import { getCurrentUser } from "../services/user.service";
-import UserContext from "../context/user.context";
+import UserContext from "../context/UserContext";
+import { BASE_URL_A } from "../services/helper.service";
 
 const Callback = () => {
   const location = useLocation();
@@ -22,7 +23,7 @@ const Callback = () => {
       const fetchAccessToken = async () => {
         try {
           const response = await axios.post(
-            "http://localhost:9091/oauth/token",
+            `${BASE_URL_A}/oauth/token`,
             new URLSearchParams({
               grant_type: "authorization_code",
               code: authCode,
@@ -36,16 +37,15 @@ const Callback = () => {
           );
 
           const tokenData = response.data;
+
           const userData = await getCurrentUser(tokenData.access_token);
 
           userContext.login(userData, tokenData);
-
           toast.success("Login Successfully");
-          // Redirect to Dashboard
           navigate("/users/home");
         } catch (error) {
-          console.error("Error fetching the access token", error);
-          toast.error("Login Failed");
+          console.error("Error during login process", error);
+          toast.error("Login Failed: " + error.message);
         } finally {
           setLoading(false);
         }
@@ -58,16 +58,18 @@ const Callback = () => {
   }, [location.search, navigate, userContext]);
 
   return (
-    <div>
-      <h2 className="text-center">
-        Processing Login...{" "}
-        <Spinner
-          animation="border"
-          size="sm"
-          className="me-2"
-          hidden={!loading}
-        />
-      </h2>
+    <div className="d-flex flex-column align-items-center justify-content-center vh-100">
+      <div className="text-center">
+        <h2 className="mb-3">Processing Login...</h2>
+        {loading && (
+          <Spinner
+            animation="border"
+            size="lg"
+            variant="primary"
+            className="me-2"
+          />
+        )}
+      </div>
     </div>
   );
 };

@@ -1,24 +1,29 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Index from "./pages";
-import About from "./pages/about";
-import Services from "./pages/services";
-import Cart from "./pages/cart";
-import Dashboard from "./pages/users/dashboard";
-import Profile from "./pages/users/profile";
-import AboutUser from "./pages/users/aboutuser";
+import Index from "./pages/Index";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import Cart from "./pages/Cart";
+import Dashboard from "./pages/users/Dashboard";
+import Profile from "./pages/users/Profile";
+import AboutUser from "./pages/users/AboutUser";
 import CustomNavbar from "./components/Navbar";
-import Contact from "./pages/contact";
+import Contact from "./pages/Contact";
 import { ToastContainer } from "react-toastify";
-import Login from "./pages/login";
-import Register from "./pages/signup";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import OAuthCallback from "./auth/OAuthCallback";
-import Home from "./pages/users/home";
-import Order from "./pages/users/order";
-import UserProvider from "./context/user.provider";
+import Home from "./pages/users/Home";
+import Order from "./pages/users/Order";
+import UserProvider from "./context/UserProvider";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminHome from "./pages/admin/AdminHome";
 import AddProduct from "./pages/admin/AddProduct";
+import ViewCategories from "./components/admin/ViewCategory";
+import AddCategory from "./components/admin/AddCategory";
+import ViewProducts from "./components/admin/ViewProducts";
+import AdminUsers from "./components/admin/AdminUsers";
+import AdminOrders from "./components/admin/AdminOrders";
 
 function App() {
   return (
@@ -39,7 +44,7 @@ function App() {
 
           <Route path="/users" element={<Dashboard />}>
             <Route path="home" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile/:userId" element={<Profile />} />
             <Route path="about" element={<AboutUser />} />
             <Route path="orders" element={<Order />} />
           </Route>
@@ -47,6 +52,11 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="home" element={<AdminHome />} />
             <Route path="add-product" element={<AddProduct />} />
+            <Route path="add-category" element={<AddCategory/> }/>
+            <Route path="categories" element={<ViewCategories/> }/>
+            <Route path="products" element={<ViewProducts/> }/>
+            <Route path="orders" element={<AdminOrders/> }/>
+            <Route path="users" element={<AdminUsers/> }/>
           </Route>
         </Routes>
       </BrowserRouter>

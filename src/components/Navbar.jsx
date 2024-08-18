@@ -5,16 +5,18 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import logo from "./../assets/logo.png";
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
-import UserContext from "../context/user.context";
+import UserContext from "../context/UserContext";
 import { toast } from "react-toastify";
 
+
 const CustomNavbar = () => {
+
   const userContext = useContext(UserContext);
 
   const doLogout = () => {
     userContext.logout();
     toast.success("Logout Successfully");
-    window.location.href=`http://localhost:9091/logout`;
+    window.location.href = `http://localhost:9091/logout`;
   };
 
   return (
@@ -60,17 +62,25 @@ const CustomNavbar = () => {
             <Nav.Link as={NavLink} to="/cart">
               Cart(40)
             </Nav.Link>
-            {userContext.isLogin ? (
+            { userContext.isLogin ? (
               <>
-                <Nav.Link as={NavLink} to="/users/home">
+                {userContext.isAdminUser && (
+                  <>
+                    <Nav.Link as={NavLink} to="/admin/home">
+                      AdminDashBoard
+                    </Nav.Link>
+                  </>
+                )}
+
+                <Nav.Link as={NavLink} to={`/users/profile/${userContext.userData?.userId}`}>
+                  {/* This is loading data with a delay need to solve */}
                   {userContext.userData?.name}
+                  {/* {getUserFromStorage().name} */}
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="/users/orders">
                   Orders
                 </Nav.Link>
-                <Nav.Link onClick={doLogout}>
-                  Logout
-                </Nav.Link>
+                <Nav.Link onClick={doLogout}>Logout</Nav.Link>
               </>
             ) : (
               <>
@@ -90,4 +100,3 @@ const CustomNavbar = () => {
 };
 
 export default CustomNavbar;
-

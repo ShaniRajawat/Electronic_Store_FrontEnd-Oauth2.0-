@@ -1,12 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { isLoggedIn } from "../../auth/helper.auth";
+import { isLoggedIn } from "../../auth/HelperAuth";
 
 const Dashboard = () => {
   //logged in View
   const dashboardView = () => {
     return (
       <div>
-        <h1>this is user dashboard</h1>
+        {/* <h1>this is user dashboard</h1> */}
 
         {/* nested */}
         <Outlet />

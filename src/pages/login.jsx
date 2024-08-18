@@ -3,14 +3,15 @@ import { Button, Card, CardBody, Col, Container, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Base from "../components/Base";
 import Logo from "../assets/logo.png";
+import { BASE_URL_A } from "../services/helper.service";
 
 const Login = () => {
   const handleLogin = () => {
-    const authorizationUrl = `http://localhost:9091/oauth2/authorize?response_type=code&client_id=client&scope=write`;
+    const authorizationUrl = BASE_URL_A +`/oauth2/authorize?response_type=code&client_id=client&scope=write`;
     window.location.href = authorizationUrl;
   };
 
-  const LogInn = () => {
+  const LogIn = () => {
     return (
       <Container>
         <Row className="justify-content-center">
@@ -59,7 +60,7 @@ const Login = () => {
 
   return (
     <Base title="Electro Store / Login" description="Login Here">
-      {LogInn()}
+      {LogIn()}
     </Base>
   );
 };

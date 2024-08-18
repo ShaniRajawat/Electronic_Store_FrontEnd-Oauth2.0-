@@ -1,12 +1,32 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { isAdminUser } from "../../auth/HelperAuth";
+import { useContext } from "react";
+import UserContext from "../../context/UserContext";
+import { Container, Row, Col } from "react-bootstrap";
+import SideMenu from "../../components/admin/SideMenu";
 
-const AdminDashboard=()=>{
-    return(
-        <div>
-            <h1>This is admin Dashboard</h1>
+const AdminDashboard = () => {
+  const userContext = useContext(UserContext);
 
-            <Outlet/>
-        </div>
+  const dashboardView = () => {
+    return (
+      <div>
+        <Container className="p-5">
+          <Row>
+            <Col md={{
+              span:2,
+              offset:1
+            }} className="">
+              <SideMenu/>
+            </Col>
+            <Col md={8} className="bg-secondary">
+            Content Area
+            </Col>
+          </Row>
+        </Container>
+      </div>
     )
-}
+  };
+  return isAdminUser() ? dashboardView() : <Navigate to={"/admin/home"} />;
+};
 export default AdminDashboard;
