@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.list-group-item.active{
+  background: rgba(0,0,0, 0.9) !important;
+  color: white !important;
+  border: none !important;
+}
+

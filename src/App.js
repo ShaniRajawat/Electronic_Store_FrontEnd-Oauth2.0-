@@ -19,11 +19,11 @@ import UserProvider from "./context/UserProvider";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminHome from "./pages/admin/AdminHome";
 import AddProduct from "./pages/admin/AddProduct";
-import ViewCategories from "./components/admin/ViewCategory";
-import AddCategory from "./components/admin/AddCategory";
-import ViewProducts from "./components/admin/ViewProducts";
-import AdminUsers from "./components/admin/AdminUsers";
-import AdminOrders from "./components/admin/AdminOrders";
+import ViewCategories from "./pages/admin/ViewCategory";
+import AddCategory from "./pages/admin/AddCategory";
+import ViewProducts from "./pages/admin/ViewProducts";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminOrders from "./pages/admin/AdminOrders";
 
 function App() {
   return (

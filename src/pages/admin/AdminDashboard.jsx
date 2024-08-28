@@ -13,19 +13,22 @@ const AdminDashboard = () => {
       <div>
         <Container className="p-5">
           <Row>
-            <Col md={{
-              span:2,
-              offset:1
-            }} className="">
-              <SideMenu/>
+            <Col
+              md={{
+                span: 2,
+                offset: 1,
+              }}
+              className=""
+            >
+              <SideMenu />
             </Col>
-            <Col md={8} className="bg-secondary">
-            Content Area
+            <Col md={8} className="ps-3 pt-2">
+              <Outlet />
             </Col>
           </Row>
         </Container>
       </div>
-    )
+    );
   };
   return isAdminUser() ? dashboardView() : <Navigate to={"/admin/home"} />;
 };
