@@ -13,7 +13,7 @@ import { IoIosLogOut } from "react-icons/io";
 
 const SideMenu =()=>{
     return (<>
-    <ListGroup variant="flush" className="shadow">
+    <ListGroup variant="flush" className="shadow sticky-top">
         <ListGroupItem className="border border-0" as={NavLink} to="/admin/home" action>
             <GrHome size={20} />
             <span className="ms-2">Home</span>
