@@ -15,6 +15,7 @@ import {
 import {
   addProductImage,
   getAllProducts,
+  searchProduct,
   updateProduct,
   updateProductCategory,
 } from "../../services/product.service";
@@ -45,6 +46,7 @@ const ViewProducts = () => {
     preview: undefined,
     imageName: undefined,
   });
+
   const [categoryChangeId, setCategoryChangeId] = useState("");
 
   useEffect(() => {
@@ -57,8 +59,14 @@ const ViewProducts = () => {
       });
   }, []);
 
-  //Edit desc
+  // for Edit desc
   const editorRef = useRef();
+
+  //For Search Product
+  const [searchQuery, setSearchQuery] = useState("");
+
+  //Previous product State
+  const [previousProducts, setPreviousProducts] = useState(undefined);
 
   //#Start View Product Variable & State
   const [show, setShow] = useState(false);
@@ -94,6 +102,7 @@ const ViewProducts = () => {
     getAllProduct();
   }, []);
 
+  //All product for view
   const getAllProduct = (
     pageNumber = 0,
     pageSize = PRODUCT_PAGE_SIZE,
@@ -113,6 +122,7 @@ const ViewProducts = () => {
       });
   };
 
+  //for Image Preview and Image Variable
   const handleFileChange = (event) => {
     console.log(event.target.files[0]);
 
@@ -218,7 +228,7 @@ const ViewProducts = () => {
               }
               return p;
             });
-      
+
             setProducts({
               ...products,
               content: newArray,
@@ -609,6 +619,27 @@ const ViewProducts = () => {
     );
   };
 
+  //Searcxh Product
+  const searchProducts = () => {
+    if (searchQuery === undefined || searchQuery.trim() === "") {
+      return;
+    } else {
+      //call server api
+      searchProduct(searchQuery)
+        .then((data) => {
+          if (data.content.length <= 0) {
+            toast.info("No result Found");
+            return;
+          }
+          setPreviousProducts(products);
+          setProducts(data);
+        })
+        .catch((error) => {
+          toast.error("Error in Searching");
+        });
+    }
+  };
+
   //All Products View
   const productsView = () => {
     return (
@@ -616,8 +647,25 @@ const ViewProducts = () => {
         <Card.Body>
           <h4 className="text-center mb-2 display-4">Products</h4>
 
-          <Form.Group>
-            <Form.Control type="text" placeholder="Search Product here" />
+          <Form.Group className="mb-2">
+            <InputGroup>
+              <Form.Control
+                onChange={(event) => {
+                  if (event.target.value === "") {
+                    if (previousProducts) {
+                      setProducts(previousProducts);
+                    }
+                  }
+                  setSearchQuery(event.target.value);
+                }}
+                value={searchQuery}
+                type="text"
+                placeholder="Search Product here"
+              />
+              <Button onClick={searchProducts} variant="btn btn-outline-info">
+                Search
+              </Button>
+            </InputGroup>
           </Form.Group>
 
           <div className="table-responsive">

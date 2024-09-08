@@ -53,3 +53,9 @@ export const updateProductCategory=async (categoryId, productId)=>{
   const response = await privateAxios.put(`/categories/${categoryId}/products/${productId}`);
   return response.data;
 }
+
+//Search Product service
+export const searchProduct=async (query)=>{
+  const response = await privateAxios.get(`/products/search/${query}`);
+  return response.data;
+}
