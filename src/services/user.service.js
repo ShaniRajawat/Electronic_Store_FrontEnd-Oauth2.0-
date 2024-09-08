@@ -5,8 +5,8 @@ import { privateAxios } from "./axios.services"
 
 
 //register new user
-export const registerUser = (userdata)=>{
-  const response = publicAxios.post(`/users`, userdata);
+export const registerUser = async (userdata)=>{
+  const response = await publicAxios.post(`/users`, userdata);
   return response.data;
 };
 

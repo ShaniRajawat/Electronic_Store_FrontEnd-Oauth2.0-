@@ -73,8 +73,7 @@ const Profile = () => {
     console.log(event.target.files[0]);
 
     if (
-      event.target.files[0].type === "image/jpeg" ||
-      event.target.files[0].type === "image/png"
+      event.target.files[0].type === "image/jpeg"
     ) {
       //preview show
       const reader = new FileReader();

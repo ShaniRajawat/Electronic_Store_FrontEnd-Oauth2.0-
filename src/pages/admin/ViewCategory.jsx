@@ -123,7 +123,7 @@ const ViewCategory = () => {
 
   //Load next Page
   const loadNextPage = () => {
-    console.log("Loading Next Page")
+    console.log("Loading Next Page");
     setCurrentPage(currentPage + 1);
   };
 

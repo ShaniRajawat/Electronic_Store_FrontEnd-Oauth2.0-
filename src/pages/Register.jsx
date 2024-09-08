@@ -54,7 +54,6 @@ const Register = () => {
 
   const submitForm = (event) => {
     event.preventDefault();
-    console.log(data);
 
     //validate client side
     if (data.name === undefined || data.name.trim() === "") {
@@ -87,12 +86,14 @@ const Register = () => {
 
     setLoading(true);
     registerUser(data)
-      .then((userData) => {
+      .then((data) => {
+        console.log(data);
         toast.success("User created successfully");
         clearData();
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
         setErrorData({
           isError: true,
           errorData: error,

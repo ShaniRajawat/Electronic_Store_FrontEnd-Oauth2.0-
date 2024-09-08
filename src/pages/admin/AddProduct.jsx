@@ -1,22 +1,53 @@
-import { useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Row,
+} from "react-bootstrap";
 import { toast } from "react-toastify";
+import {
+  addProductImage,
+  createProductInCategory,
+  createProductWithoutCategory,
+} from "../../services/product.service";
+import { getCategories } from "../../services/category.service";
+import { Editor } from "@tinymce/tinymce-react";
 
 const AddProduct = () => {
+  const [selectedCategoryId, setSelectedCategoryId] = useState("none");
+  const [categories, setCategories] = useState(undefined);
+
+  const editorRef = useRef();
+
+  useEffect(() => {
+    getCategories(0, 1000)
+      .then((data) => {
+        setCategories(data);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Error on loading categories");
+      });
+  }, []);
+
   const [product, setProduct] = useState({
     title: "",
     description: "",
-    price: "",
-    discountedPrice: "",
-    quantity: "",
+    price: 0,
+    discountedPrice: 0,
+    quantity: 1,
     live: false,
     stock: true,
     brandName: "",
-    productImageName: undefined,
+    imageName: undefined,
     preview: undefined,
   });
 
-  const handleFileChange=(event)=>{
+  const handleFileChange = (event) => {
     console.log(event.target.files[0]);
 
     if (
@@ -28,10 +59,9 @@ const AddProduct = () => {
       reader.onload = (r) => {
         setProduct({
           ...product,
-          preview:r.target.result,
-          productImageName: event.target.files[0],
-        })
-
+          preview: r.target.result,
+          imageName: event.target.files[0],
+        });
       };
 
       reader.readAsDataURL(event.target.files[0]);
@@ -39,11 +69,113 @@ const AddProduct = () => {
       toast.error("Invalid File type");
       setProduct({
         ...product,
-        productImageName:undefined,
-        preview:undefined,
-      })
+        imageName: undefined,
+        preview: undefined,
+      });
     }
-  }
+  };
+
+  const clearForm = () => {
+    editorRef.current.setContent("");
+
+    setProduct({
+      title: "",
+      description: "",
+      price: 0,
+      discountedPrice: 0,
+      quantity: 1,
+      live: false,
+      stock: true,
+      brandName: "",
+      imageName: undefined,
+      preview: undefined,
+    });
+  };
+
+  //Add Product and Image by API
+  const submitAddProfuctFormn = (event) => {
+    event.preventDefault();
+
+    //Validation
+    if (product.title === undefined || product.title.trim() === "") {
+      toast.error("Title is required !!");
+      return;
+    }
+
+    if (
+      product.description === undefined ||
+      product.description.trim() === ""
+    ) {
+      toast.error("Description is required !!");
+      return;
+    }
+
+    if (product.price <= 0) {
+      toast.error("Invalid Price !!");
+      return;
+    }
+
+    if (
+      product.discountedPrice <= 0 ||
+      product.discountedPrice >= product.price
+    ) {
+      toast.error("Invalid Discounted Price Price !!");
+      return;
+    }
+
+    if (selectedCategoryId === "none") {
+      createProductWithoutCategory(product)
+        .then((data) => {
+          console.log(data);
+          toast.success("Product is added");
+          if (!product.imageName) {
+            clearForm();
+            return;
+          }
+          //Image Upload
+          addProductImage(product.imageName, data.productId)
+            .then((data1) => {
+              console.log(data1);
+              toast.success("Image Uploaded");
+              clearForm();
+            })
+            .catch((error) => {
+              console.log(error);
+              toast.error("Image is not Uploaded");
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Error in Adding Product");
+        });
+    } else {
+      // create product wth in Category
+      createProductInCategory(product, selectedCategoryId)
+        .then((data) => {
+          console.log(data);
+          toast.success("Product is added");
+          if (!product.imageName) {
+            clearForm();
+            return;
+          }
+          //Image Upload
+          addProductImage(product.imageName, data.productId)
+            .then((data1) => {
+              console.log(data1);
+              toast.success("Image Uploaded");
+              clearForm();
+            })
+            .catch((error) => {
+              console.log(error);
+              toast.error("Image is not Uploaded");
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Error in Adding Product");
+        });
+    }
+  };
 
   const formView = () => {
     return (
@@ -51,7 +183,7 @@ const AddProduct = () => {
         <Card className="border border-0 shadow">
           <Card.Body>
             <h5>Add Product Here</h5>
-            <Form>
+            <Form onSubmit={submitAddProfuctFormn}>
               {/* Product Title */}
               <Form.Group className="mt-3">
                 <Form.Label>Product Title</Form.Label>
@@ -70,7 +202,7 @@ const AddProduct = () => {
               {/* Product Description */}
               <Form.Group className="mt-3">
                 <Form.Label>Product Description</Form.Label>
-                <Form.Control
+                {/* <Form.Control
                   rows={6}
                   as={"textarea"}
                   placeholder="Enter Here"
@@ -81,6 +213,31 @@ const AddProduct = () => {
                     })
                   }
                   value={product.description}
+                /> */}
+                <Editor
+                  apiKey="fpjho4b4e70cqz0j7xcst67gq26yofhwrg1kb54c9m5651in"
+                  onInit={(evt, editor) => (editorRef.current = editor)}
+                  initialValue="Add Product Description Here"
+                  disabled={false}
+                  init={{
+                    height: 500,
+                    menubar: false,
+                    plugins: [
+                      "advlist autolink lists link image charmap print preview anchor",
+                      "searchreplace visualblocks code fullscreen",
+                      "insertdatetime media table paste code help wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | formatselect | bold italic backcolor | \
+        alignleft aligncenter alignright alignjustify | \
+        bullist numlist outdent indent | removeformat | help",
+                  }}
+                  onEditorChange={() =>
+                    setProduct({
+                      ...product,
+                      description: editorRef.current.getContent(),
+                    })
+                  }
                 />
               </Form.Group>
               <Row>
@@ -194,22 +351,70 @@ const AddProduct = () => {
                 {/* Product Image */}
                 <Form.Group>
                   <Container className="text-center py-4 border border-3">
-                    <p className="text-muted">
-                      Image Preview
-                    </p>
-                    <img style={{
-                      maxHeight: "250px"
-                    }} className="img-fluid" src={product.preview} alt=""/>
+                    <p className="text-muted">Image Preview</p>
+                    <img
+                      style={{
+                        maxHeight: "250px",
+                      }}
+                      className="img-fluid"
+                      src={product.preview}
+                      alt=""
+                    />
                   </Container>
                   <Form.Label>Product Image</Form.Label>
-                  <Form.Control onChange={(event)=>handleFileChange(event)} type={"file"} />
+                  <InputGroup>
+                    <Form.Control
+                      onChange={(event) => handleFileChange(event)}
+                      type={"file"}
+                    />
+                    <Button
+                      onClick={() => {
+                        setProduct({
+                          ...product,
+                          preview: undefined,
+                          imageName: undefined,
+                        });
+                      }}
+                      variant="outline-secondary"
+                    >
+                      Clear
+                    </Button>
+                  </InputGroup>
+                </Form.Group>
+                {/* {JSON.stringify(selectedCategoryId)} */}
+                <Form.Group className="mt-3">
+                  <Form.Label>Select Category</Form.Label>
+                  <Form.Select
+                    // value={selectedCategoryId}
+                    onChange={(event) =>
+                      setSelectedCategoryId(event.target.value)
+                    }
+                  >
+                    <option value="none">None</option>
+                    {categories ? (
+                      <>
+                        {categories.content.map((cat) => (
+                          <option value={cat.categoryId} key={cat.categoryId}>
+                            {cat.title}
+                          </option>
+                        ))}
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </Form.Select>
                 </Form.Group>
               </Row>
               <Container className="text-center mt-3">
-                <Button variant="success" size="sm">
+                <Button type="submit" variant="success" size="sm">
                   Add Product
                 </Button>
-                <Button className="ms-2" variant="warning" size="sm">
+                <Button
+                  onClick={clearForm}
+                  className="ms-2"
+                  variant="warning"
+                  size="sm"
+                >
                   Clear
                 </Button>
               </Container>
