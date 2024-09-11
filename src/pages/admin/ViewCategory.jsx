@@ -311,6 +311,7 @@ const ViewCategory = () => {
             next={loadNextPage}
             hasMore={!categories.lastPage}
             loader={<h2 className="p-2 text-center">Loading...</h2>}
+            endMessage={<p className="text-center my-4">All Categories are Loaded</p>}
           >
             {categories.content.map((category) => {
               return (

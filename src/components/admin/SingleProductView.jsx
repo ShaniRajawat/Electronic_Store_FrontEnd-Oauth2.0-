@@ -5,12 +5,9 @@ import { GrUpdate } from "react-icons/gr";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { deleteProduct } from "../../services/product.service";
+import { formatDate } from "../../services/helper.service";
 
 const SingleProductView = ({ product, index, updateProductList, handleProductOpen, openEditProductModal }) => {
-  
-  const formatDate = (time) => {
-    return new Date(time).toLocaleString();
-  };
 
   const getBackGroundColorForProduct = () => {
     //Live + Stock ===> green: table-success
@@ -71,7 +68,7 @@ const SingleProductView = ({ product, index, updateProductList, handleProductOpe
       <td className="px-3 small">
         {product.category ? product.category.title : "N/A"}
       </td>
-      <td className="px-3 small">{formatDate(product.addedDate)}</td>
+      <td className="px-3 small">{formatDate(formatDate(product.addedDate))}</td>
       <td className="px-3 small d-flex">
         <Button
           onClick={(event) => {

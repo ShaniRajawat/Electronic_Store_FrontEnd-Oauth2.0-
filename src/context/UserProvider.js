@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import UserContext from "./UserContext";
-import { isAdminUser as AdminUser,  doLogoutformLocalStorage, getTokenFromStorage, getUserFromStorage, isLoggedIn, setTokenDatainStorage, setUserDataLocalStorage } from "../auth/HelperAuth";
+import {
+  isAdminUser as AdminUser,
+  doLogoutformLocalStorage,
+  getTokenFromStorage,
+  getUserFromStorage,
+  isLoggedIn,
+  setTokenDatainStorage,
+  setUserDataLocalStorage,
+} from "../auth/HelperAuth";
 
 const UserProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false);
@@ -10,21 +18,24 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     setIsLogin(isLoggedIn());
-    setUserData(getUserFromStorage());
     setTokenData(getTokenFromStorage());
+  }, []);
+
+  useEffect(() => {
+    setUserData(getUserFromStorage());
     setIsAdminUser(AdminUser());
   }, []);
 
   //Login
-  const doLogin=(userData, tokenData)=>{
+  const doLogin = (userData, tokenData) => {
     setUserDataLocalStorage(userData);
     setTokenDatainStorage(tokenData);
     setIsLogin(true);
-    setIsAdminUser(AdminUser())
+    setIsAdminUser(AdminUser());
   };
 
   //Logout
-  const doLogout=()=>{
+  const doLogout = () => {
     doLogoutformLocalStorage();
     setIsLogin(false);
     setUserData(null);
@@ -45,8 +56,8 @@ const UserProvider = ({ children }) => {
         isAdminUser: isAdminUser,
         //U can remove this
         setIsLogin: setIsLogin,
-        login:doLogin,
-        logout:doLogout
+        login: doLogin,
+        logout: doLogout,
       }}
     >
       {children}
