@@ -19,15 +19,12 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     setIsLogin(isLoggedIn());
     setTokenData(getTokenFromStorage());
-  }, []);
-
-  useEffect(() => {
     setUserData(getUserFromStorage());
     setIsAdminUser(AdminUser());
   }, []);
 
   //Login
-  const doLogin = (userData, tokenData) => {
+  const doLogin = async (userData, tokenData) => {
     setUserDataLocalStorage(userData);
     setTokenDatainStorage(tokenData);
     setIsLogin(true);
