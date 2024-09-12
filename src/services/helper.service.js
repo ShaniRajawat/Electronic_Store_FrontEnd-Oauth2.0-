@@ -10,6 +10,10 @@ export const getProductImageUrl=(productId)=>{
     return `${BASE_URL_R}/products/image/${productId}`;
 }
 
+export const getUserImageUrl=(userId)=>{
+    return `${BASE_URL_R}/users/image/${userId}`;
+}
+
 export const formatDate = (time) => {
     if(!time){
         return null;

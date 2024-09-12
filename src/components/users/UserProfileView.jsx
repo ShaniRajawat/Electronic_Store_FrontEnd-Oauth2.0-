@@ -32,6 +32,10 @@ const UserProfileView = ({ user = null, handleShowModel }) => {
                     : profile
                 }
                 alt="Profile"
+                onError={(event) => {
+                  console.log("error");
+                  event.currentTarget.setAttribute("src", profile)
+                }}
               />
             </Container>
             <h2 className="text-center text-uppercase fw-bold text-primary">

@@ -47,3 +47,10 @@ export const updateUserProfilepic=(file, userId)=>{
   .post(`/users/image/${userId}`, data)
   .then(response => response.data);
 }
+
+//get All users
+
+export const getAllUsers = async (pageNumber,pageSize,sortBy,sortDir)=>{
+  const response = await privateAxios.get(`/users?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDir}`);
+  return response.data;
+}
