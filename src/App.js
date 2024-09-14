@@ -27,45 +27,54 @@ import AdminOrders from "./pages/admin/AdminOrders";
 import StorePage from "./pages/users/StorePage";
 import ProductView from "./pages/users/ProductView";
 import CategoryStorePage from "./pages/users/CategoryStorePage";
+import CartProvider from "./context/CartProvider";
 
 function App() {
   return (
     //setting up route
     <UserProvider>
-      <BrowserRouter>
-        <ToastContainer position="bottom-center" />
-        <CustomNavbar />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/callback" element={<OAuthCallback />} />
-          <Route path="/Register" element={<Register />} />
-          <Route path="/store" element={<StorePage/>} />
-          <Route path="/store/products/:productId" element={<ProductView/>} />
-          <Route path="/store/:categoryId/:categoryTitle" element={<CategoryStorePage/>} />
+      <CartProvider>
+        <BrowserRouter>
+          <ToastContainer position="bottom-center" />
+          <CustomNavbar />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/callback" element={<OAuthCallback />} />
+            <Route path="/Register" element={<Register />} />
+            <Route path="/store" element={<StorePage />} />
+            <Route
+              path="/store/products/:productId"
+              element={<ProductView />}
+            />
+            <Route
+              path="/store/:categoryId/:categoryTitle"
+              element={<CategoryStorePage />}
+            />
 
-          <Route path="/users" element={<Dashboard />}>
-            <Route path="home" element={<Home />} />
-            <Route path="profile/:userId" element={<Profile />} />
-            <Route path="about" element={<AboutUser />} />
-            <Route path="orders" element={<Order />} />
-          </Route>
+            <Route path="/users" element={<Dashboard />}>
+              <Route path="home" element={<Home />} />
+              <Route path="profile/:userId" element={<Profile />} />
+              <Route path="about" element={<AboutUser />} />
+              <Route path="orders" element={<Order />} />
+            </Route>
 
-          <Route path="/admin" element={<AdminDashboard />}>
-            <Route path="home" element={<AdminHome />} />
-            <Route path="add-product" element={<AddProduct />} />
-            <Route path="add-category" element={<AddCategory/> }/>
-            <Route path="categories" element={<ViewCategories/> }/>
-            <Route path="products" element={<ViewProducts/> }/>
-            <Route path="orders" element={<AdminOrders/> }/>
-            <Route path="users" element={<AdminUsers/> }/>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+            <Route path="/admin" element={<AdminDashboard />}>
+              <Route path="home" element={<AdminHome />} />
+              <Route path="add-product" element={<AddProduct />} />
+              <Route path="add-category" element={<AddCategory />} />
+              <Route path="categories" element={<ViewCategories />} />
+              <Route path="products" element={<ViewProducts />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="users" element={<AdminUsers />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </UserProvider>
   );
 }

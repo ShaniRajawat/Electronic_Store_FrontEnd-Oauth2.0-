@@ -1,13 +1,15 @@
 import Base from "../components/Base";
+import React, { useContext } from "react";
+import CartContext from "../context/CartContext";
 
-function Cart(){
-    return (
-        <Base>
-            <div>
-                This is Cart Page
-            </div>
-        </Base>
-    )
-}
+const Cart = () => {
+
+    const { item } = useContext(CartContext);
+  return (
+    <Base>
+      <div>This is Cart { item}</div>
+    </Base>
+  );
+};
 
 export default Cart;

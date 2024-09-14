@@ -1,9 +1,3 @@
-
-//data: save in LocalStorage
-export const setUserDataLocalStorage=(userData)=>{
-    localStorage.setItem("userData", JSON.stringify(userData));
-};
-
 export const setTokenDatainStorage=(tokenData)=>{
     localStorage.setItem("tokenData", JSON.stringify(tokenData));
 };

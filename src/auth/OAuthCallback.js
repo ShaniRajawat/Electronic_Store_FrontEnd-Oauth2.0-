@@ -40,7 +40,10 @@ const Callback = () => {
 
           const userData = await getCurrentUser(tokenData.access_token);
 
-          userContext.login(userData, tokenData);
+          //data: save in LocalStorage
+          localStorage.setItem("userData", JSON.stringify(userData));
+
+          userContext.login(tokenData);
           toast.success("Login Successfully");
           navigate("/users/home");
         } catch (error) {

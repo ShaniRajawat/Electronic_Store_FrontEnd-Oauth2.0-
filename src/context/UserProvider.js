@@ -7,7 +7,6 @@ import {
   getUserFromStorage,
   isLoggedIn,
   setTokenDatainStorage,
-  setUserDataLocalStorage,
 } from "../auth/HelperAuth";
 
 const UserProvider = ({ children }) => {
@@ -24,8 +23,7 @@ const UserProvider = ({ children }) => {
   }, []);
 
   //Login
-  const doLogin = async (userData, tokenData) => {
-    setUserDataLocalStorage(userData);
+  const doLogin = (tokenData) => {
     setTokenDatainStorage(tokenData);
     setIsLogin(true);
     setIsAdminUser(AdminUser());
