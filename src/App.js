@@ -24,6 +24,9 @@ import AddCategory from "./pages/admin/AddCategory";
 import ViewProducts from "./pages/admin/ViewProducts";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminOrders from "./pages/admin/AdminOrders";
+import StorePage from "./pages/users/StorePage";
+import ProductView from "./pages/users/ProductView";
+import CategoryStorePage from "./pages/users/CategoryStorePage";
 
 function App() {
   return (
@@ -41,6 +44,9 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/callback" element={<OAuthCallback />} />
           <Route path="/Register" element={<Register />} />
+          <Route path="/store" element={<StorePage/>} />
+          <Route path="/store/products/:productId" element={<ProductView/>} />
+          <Route path="/store/:categoryId/:categoryTitle" element={<CategoryStorePage/>} />
 
           <Route path="/users" element={<Dashboard />}>
             <Route path="home" element={<Home />} />

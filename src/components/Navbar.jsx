@@ -62,6 +62,9 @@ const CustomNavbar = () => {
             <Nav.Link as={NavLink} to="/cart">
               Cart(40)
             </Nav.Link>
+            <Nav.Link as={NavLink} to="/store">
+              Store
+            </Nav.Link>
             { userContext.isLogin ? (
               <>
                 {userContext.isAdminUser && (

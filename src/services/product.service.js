@@ -36,6 +36,26 @@ export const getAllProducts = async (
   return response.data;
 };
 
+//get All Live Products
+export const getAllLiveProducts = async (
+  pageNumber = 0,
+  pageSize = 10,
+  sortBy = "addedDate",
+  sortDir = "desc"
+) => {
+  const response = await privateAxios
+    .get(
+      `/products/live?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDir}`
+    );
+  return response.data;
+};
+
+//get Single Products
+export const getSingleProduct = async (productId)=>{
+  const response = await privateAxios.get(`/products/${productId}`);
+  return response.data;
+}
+
 //delete Product
 export const deleteProduct =async (productId)=>{
   const response = await privateAxios.delete(`/products/${productId}`);
@@ -57,5 +77,12 @@ export const updateProductCategory=async (categoryId, productId)=>{
 //Search Product service
 export const searchProduct=async (query)=>{
   const response = await privateAxios.get(`/products/search/${query}`);
+  return response.data;
+}
+
+//Get Products of Categories
+
+export const getProductOfCategories=async (categoryId, pageNumber=0, pageSize=9, sortBy='addedDate', sortDir='asc')=>{
+  const response = await privateAxios.get(`/categories/${categoryId}/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDir}`);
   return response.data;
 }
