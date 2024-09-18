@@ -35,7 +35,7 @@ function App() {
     <UserProvider>
       <CartProvider>
         <BrowserRouter>
-          <ToastContainer position="bottom-center" />
+          <ToastContainer position="top-right" />
           <CustomNavbar />
           <Routes>
             <Route path="/" element={<Index />} />

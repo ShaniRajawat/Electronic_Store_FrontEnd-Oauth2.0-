@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getSingleProduct } from "../../services/product.service";
 import { useState } from "react";
@@ -8,8 +8,10 @@ import { Card, Col, Row, Container, Badge, Button } from "react-bootstrap";
 import ShowHtml from "../../components/ShowHtml";
 import { getProductImageUrl } from "../../services/helper.service";
 import defaultImage from "../../assets/logo.png";
+import CartContext from "../../context/CartContext";
 
 const ProductView = () => {
+  const { addItem } = useContext(CartContext);
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
 
@@ -24,6 +26,12 @@ const ProductView = () => {
         console.log(error);
         toast.error("Error in Loading the Product");
       });
+  };
+
+  const handleAddItem = (productId, quantity) => {
+    addItem(quantity, productId, () => {
+      toast.info("Producted is Added to Cart");
+    });
   };
 
   const productView = () => {
@@ -41,27 +49,33 @@ const ProductView = () => {
                           width: "500px",
                         }}
                         src={getProductImageUrl(product.productId)}
-                        onError={(event)=>{
-                            event.currentTarget.setAttribute('src',defaultImage);
+                        onError={(event) => {
+                          event.currentTarget.setAttribute("src", defaultImage);
                         }}
                       />
                     </Col>
                     <Col className="mt-5">
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "70px",
-                            objectFit: "contain",
-                            marginBottom: "20px",
-                          }}
-                          className="d-flex justify-content-center align-items-center text-center"
-                        >
-                          <h3>{product.title}</h3>
-                        </div>
-                        <Badge className="mt-3" pill>{product?.category?.title}</Badge>
-                        <Badge className="mt-3" bg={product.stock ? "success" : "danger"} pill>
-                          {product.stock ? "In Stock" : "Out of Stock"}
-                        </Badge>
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "70px",
+                          objectFit: "contain",
+                          marginBottom: "20px",
+                        }}
+                        className="d-flex justify-content-center align-items-center text-center"
+                      >
+                        <h3>{product.title}</h3>
+                      </div>
+                      <Badge className="mt-3" pill>
+                        {product?.category?.title}
+                      </Badge>
+                      <Badge
+                        className="mt-3"
+                        bg={product.stock ? "success" : "danger"}
+                        pill
+                      >
+                        {product.stock ? "In Stock" : "Out of Stock"}
+                      </Badge>
 
                       <Container className="text-center mt-4">
                         <b>
@@ -76,10 +90,22 @@ const ProductView = () => {
                         </b>
                       </Container>
                       <Container className=" d-grid mt-3">
-                        <Button variant="success" size="sm">
+                        <Button
+                          onClick={(event) => {
+                            handleAddItem(product.productId, 1);
+                          }}
+                          variant="success"
+                          size="sm"
+                        >
                           Add to Cart
                         </Button>
-                        <Button as={Link} to={'/store'} className="mt-3" variant="info" size="sm">
+                        <Button
+                          as={Link}
+                          to={"/store"}
+                          className="mt-3"
+                          variant="info"
+                          size="sm"
+                        >
                           Go to Store
                         </Button>
                       </Container>

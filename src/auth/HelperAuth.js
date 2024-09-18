@@ -23,7 +23,7 @@ export const getTokenFromStorage=()=>{
 
 //is Login
 export const isLoggedIn=()=>{
-    if(getTokenFromStorage()){
+    if(getUserFromStorage()){
         return true;
     }else{
         return false;

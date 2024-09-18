@@ -10,7 +10,7 @@ export const getCart = async (userId) => {
 export const addItemtoCart = async (userId, productId, quantity) => {
   const response = await privateAxios.post(`/carts/${userId}`, {
     productId,
-    quantity,
+    quantity
   });
   return response.data;
 };

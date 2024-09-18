@@ -16,9 +16,9 @@ const UserProvider = ({ children }) => {
   const [isAdminUser, setIsAdminUser] = useState(false);
 
   useEffect(() => {
-    setIsLogin(isLoggedIn());
-    setTokenData(getTokenFromStorage());
     setUserData(getUserFromStorage());
+    setTokenData(getTokenFromStorage());
+    setIsLogin(isLoggedIn());
     setIsAdminUser(AdminUser());
   }, []);
 
@@ -43,14 +43,14 @@ const UserProvider = ({ children }) => {
       value={{
         userData: userData,
         //U can remove this
-        setUserData: setUserData,
+        // setUserData: setUserData,
         tokenData: tokenData,
         //U can remove this
-        setTokenData: setTokenData,
+        // setTokenData: setTokenData,
         isLogin: isLogin,
         isAdminUser: isAdminUser,
         //U can remove this
-        setIsLogin: setIsLogin,
+        // setIsLogin: setIsLogin,
         login: doLogin,
         logout: doLogout,
       }}
