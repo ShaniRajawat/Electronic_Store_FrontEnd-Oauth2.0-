@@ -1,8 +1,13 @@
 import Base from "../components/Base";
+import {
+  ContactForm,
+  TrendingProducts,
+  infoWithImageSection,
+  infoWithImageSection2,
+} from "../components/HomePageComponent";
 
 
 function Index() {
-
   return (
     <Base
       title="Shop What you need"
@@ -13,13 +18,20 @@ function Index() {
       buttonText="Start Shopping"
       buttonType="success"
     >
-      <h1>Working on home page</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-        temporibus mollitia, eos labore placeat numquam quaerat libero nemo a
-        corporis tempora repudiandae facilis. Ipsam, eveniet consequuntur! Ad
-        reiciendis repellendus sint.
-      </p>
+      <div className="my-4">{TrendingProducts([])}</div>
+      <div className="my-5">
+        {infoWithImageSection(
+          "https://random.imagecdn.app/500/150",
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus magnam dicta molestias, at dolore iure deleniti fuga quam aliquid perspiciatis."
+        )}
+      </div>
+      <div className="my-5" style={{margin:"100px 0px"}}>
+        {infoWithImageSection2(
+          "https://random.imagecdn.app/500/150",
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus magnam dicta molestias, at dolore iure deleniti fuga quam aliquid perspiciatis."
+        )}
+      </div>
+      <div>{ContactForm()}</div>
     </Base>
   );
 }

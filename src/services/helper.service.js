@@ -10,6 +10,10 @@ export const USER_PAGE_SIZE = 8;
 
 export const STORE_PAGE_PRODUCT_SIZE = 9;
 
+export const ORDER_STATUS = "PENDING";
+
+export const PAYMENT_STATUS = "NOT_PAID";
+
 export const getProductImageUrl=(productId)=>{
     return `${BASE_URL_R}/products/image/${productId}`;
 }

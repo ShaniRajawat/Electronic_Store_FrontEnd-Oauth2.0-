@@ -9,7 +9,7 @@ import Profile from "./pages/users/Profile";
 import AboutUser from "./pages/users/AboutUser";
 import CustomNavbar from "./components/Navbar";
 import Contact from "./pages/Contact";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import OAuthCallback from "./auth/OAuthCallback";
@@ -28,14 +28,53 @@ import StorePage from "./pages/users/StorePage";
 import ProductView from "./pages/users/ProductView";
 import CategoryStorePage from "./pages/users/CategoryStorePage";
 import CartProvider from "./context/CartProvider";
+import { Container } from "react-bootstrap";
+import LoadingComp from "./components/LoadingComp";
+import { useState } from "react";
+import { useEffect } from "react";
+import { privateAxios } from "./services/axios.services";
 
 function App() {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    //request Intercepter
+    privateAxios.interceptors.request.use(
+      (config) => {
+        setLoading(true);
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+  }, []);
+
+  useEffect(() => {
+    privateAxios.interceptors.response.use(
+      (config) => {
+        setLoading(false);
+        return config;
+      },
+      (error) => {
+        setLoading(false);
+        if(error.code === 'ERR_NETWORK'){
+          toast.error("BackEnd Server is Down Please try again after some time");
+        }
+        return Promise.reject(error);
+      }
+    );
+  }, []);
+
   return (
     //setting up route
     <UserProvider>
       <CartProvider>
         <BrowserRouter>
           <ToastContainer position="top-right" />
+          <Container>
+            <LoadingComp show={loading} />
+          </Container>
           <CustomNavbar />
           <Routes>
             <Route path="/" element={<Index />} />

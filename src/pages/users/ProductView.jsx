@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { Card, Col, Row, Container, Badge, Button } from "react-bootstrap";
 import ShowHtml from "../../components/ShowHtml";
 import { getProductImageUrl } from "../../services/helper.service";
-import defaultImage from "../../assets/logo.png";
+import defaultImage from "../../assets/defProd.jpg";
 import CartContext from "../../context/CartContext";
 
 const ProductView = () => {
@@ -29,6 +29,9 @@ const ProductView = () => {
   };
 
   const handleAddItem = (productId, quantity) => {
+
+    //if the product is in stock
+    
     addItem(quantity, productId, () => {
       toast.info("Producted is Added to Cart");
     });
@@ -90,7 +93,7 @@ const ProductView = () => {
                         </b>
                       </Container>
                       <Container className=" d-grid mt-3">
-                        <Button
+                        <Button disabled={!product.stock}
                           onClick={(event) => {
                             handleAddItem(product.productId, 1);
                           }}

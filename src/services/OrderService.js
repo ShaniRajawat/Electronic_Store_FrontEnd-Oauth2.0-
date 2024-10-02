@@ -15,4 +15,14 @@ export const updateOrder=async (order, orderId)=>{
     return result.data;
 }
 
-//get order pf users
+//create orders of users
+export const createOrder=async(orderDetail)=>{
+    const result =await privateAxios.post(`/order`,orderDetail);
+    return result.data;
+}
+
+//get order of users
+export const getAllOrdersOfUser=async(userId)=>{
+    const result = await privateAxios.get(`/order/users/${userId}`);
+    return result.data;
+}

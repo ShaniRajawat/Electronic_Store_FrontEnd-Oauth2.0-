@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import defaultImage from "../../assets/logo.png";
+import defaultImage from "../../assets/defCat.jpg";
 
 const CategoryView = () => {
   const [categories, setCategories] = useState(null);
